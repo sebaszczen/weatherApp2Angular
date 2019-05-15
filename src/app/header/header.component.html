@@ -1,0 +1,13 @@
+<header>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="navbar-brand">Weather App</div>
+    <ul class="navbar-nav">
+      <li><a routerLink="/registration" class="nav-link">Register</a></li>
+      <li><a routerLink="/login" class="nav-link">Login</a></li>
+      <li><a *ngIf="authenticationService.isUserLoggedIn()" routerLink="/logout" class="nav-link">Logout</a></li>
+    </ul>
+    <ul class="navbar-nav navbar-collapse justify-content-end" >
+      <li><a *ngIf="authenticationService.isUserLoggedIn()" routerLink="/weather" class="nav-link">Check Weather</a></li>
+    </ul>
+  </nav>
+</header>
