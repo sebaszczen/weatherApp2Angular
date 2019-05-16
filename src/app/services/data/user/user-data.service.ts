@@ -11,7 +11,7 @@ export class UserDataService {
 
   handleLogin(user: UserDto) {
     let headers = new HttpHeaders({
-      Authorization: "Basic " + btoa("c@asd.asd" + ":" + "$2a$11$fgflzfbsa7vvgtk/l1ofw.mq1.7cwrwy9kkuyfrp3sffy8tltcfia"),
+      Authorization: "Basic " + btoa("a" + ":" + "a"),
       "X-Requested-With": "XMLHttpRequest",
       username: "ad@gmail.com",
       password: "a"
@@ -26,9 +26,7 @@ export class UserDataService {
     this.httpClient
       .post("//localhost:8080/login", { username: "ad@gmail.com",
       password: "a"}, {headers, params})
-      .subscribe(x => {
-        console.log(x);
-      });
+      .subscribe(error => console.log('There was an error: '));
 
 
   }
