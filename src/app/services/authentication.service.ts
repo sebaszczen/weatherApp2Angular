@@ -1,27 +1,49 @@
-import { Injectable } from '@angular/core';
+import { UserDataService } from './data/user/user-data.service';
+import { Injectable } from "@angular/core";
+import { UserDto } from "../models/userDto";
+import {map} from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class AuthenticationService {
+  constructor(
+    private userDataService : UserDataService
+  ) {}
 
-
-  constructor() { }
-
-  authenticate(email:string, password:string): boolean{
-    if(email==='a'&& password==='a'){
-      sessionStorage.setItem('authenticatedUser',email);
-      return true;
-    }
-    return false;
+  authenticate(user: UserDto): Observable<boolean> {
+    let authenticated = false;
+    let basicAuthHeaderString =
+      "Basic " + window.btoa(user.username + ":" + user.password);
+     return this.userDataService.handleLogin(user).pipe(map(
+      response => {
+          if (response.status == 200) {
+            sessionStorage.setItem("authenticatedUser", user.username);
+            sessionStorage.setItem('token',basicAuthHeaderString);
+            authenticated = true;
+          }
+          return authenticated;
+    }));
+    // return authenticated;
   }
 
-  isUserLoggedIn(): boolean{
+  getAuthenticatedUser(){
+    return sessionStorage.getItem("authenticatedUser");
+  }
+
+  getAuthenticatedToken(){
+    if(this.getAuthenticatedUser)
+    return sessionStorage.getItem("token");
+  }
+
+  isUserLoggedIn(): boolean {
     // console.log(!(sessionStorage.getItem('authenticatedUser')===null));
-    return !(sessionStorage.getItem('authenticatedUser')===null);
+    return !(sessionStorage.getItem("authenticatedUser") === null);
   }
 
-  logout(){
-    sessionStorage.removeItem('authenticatedUser')
+  logout() {
+    sessionStorage.removeItem("authenticatedUser");
+    sessionStorage.removeItem("token");
   }
 }

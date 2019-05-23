@@ -1,4 +1,5 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpInterceptorService } from './services/http/http-interceptor.service';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpInterceptor } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
@@ -23,7 +24,7 @@ import { LogoutComponent } from './logout/logout.component';
     LogoutComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass : HttpInterceptorService, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
